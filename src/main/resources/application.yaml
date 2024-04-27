@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: bot
+bot:
+  token: 6912900868:AAGR5hplJXwgqnccNBzoi7-zNkyIoTPLVnM
+  name: SearchTeamPolytech
