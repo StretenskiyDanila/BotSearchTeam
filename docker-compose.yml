@@ -1,5 +1,6 @@
 version: '3.8'
 
+name: myproject
 services:
   db:
     image: postgres:16-alpine
