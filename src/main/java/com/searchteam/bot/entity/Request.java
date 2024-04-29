@@ -17,7 +17,7 @@ public class Request {
 
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
-    private Team project;
+    private Team team;
 
     @ManyToOne
     @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
