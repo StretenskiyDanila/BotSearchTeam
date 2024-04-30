@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface RequestService {
 
-    Request sendRequest(Request request);
-    List<Request> getAllRequestsUser(Long userId);
+    Request saveRequest(Request request);
+    List<Request> getAllRequestsByUserQuestionnaireId(Long userId);
     List<Request> getAllRequestsTeam(Long teamId);
     void deleteRequest(Request request);
 
+    void rejectRequest(Request request);
+    void acceptRequest(Request request);
 }

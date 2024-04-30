@@ -15,12 +15,12 @@ public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
 
     @Override
-    public Request sendRequest(Request request) {
+    public Request saveRequest(Request request) {
         return requestRepository.save(request);
     }
 
     @Override
-    public List<Request> getAllRequestsUser(Long userQuestionnaireId) {
+    public List<Request> getAllRequestsByUserQuestionnaireId(Long userQuestionnaireId) {
         return requestRepository.findByUserQuestionnaireId(userQuestionnaireId);
     }
 
@@ -32,6 +32,16 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public void deleteRequest(Request request) {
         requestRepository.delete(request);
+    }
+
+    @Override
+    public void rejectRequest(Request request) {
+
+    }
+
+    @Override
+    public void acceptRequest(Request request) {
+
     }
 
 }
