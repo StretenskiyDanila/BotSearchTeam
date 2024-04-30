@@ -36,12 +36,7 @@ public class TeamServiceImpl implements TeamService {
     public Optional<Team> findById(Long id) {
         return teamRepository.findById(id);
     }
-
-    @Override
-    public List<Request> getAllRequestsByTeamId(Long id) {
-        return requestRepository.findByTeamId(id);
-    }
-
+    
     @Override
     public void deleteTeam(Long id) {
         teamRepository.deleteById(id);
@@ -51,7 +46,7 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public void closeTeam(Team team) {
         team.setOpen(false);
-        List<Request> requests = requestRepository.findByTeamId(team.getId());
+        List<Request> requests = requestService.getAllRequestsTeam(team.getId());
         requests.forEach(requestService::rejectRequest);
     }
 }
