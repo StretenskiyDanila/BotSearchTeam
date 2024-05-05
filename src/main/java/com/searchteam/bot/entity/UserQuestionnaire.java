@@ -22,14 +22,13 @@ public class UserQuestionnaire {
 
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project;
+    private Project project; // TODO: remove
 
     private String questionnaireText;
+
     @OneToMany
     @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
     private List<Request> requests;
 
-
     private boolean isOpen;
-
 }
