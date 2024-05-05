@@ -30,7 +30,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public List<Request> getAllRequestsTeam(Long teamId) {
-        return requestRepository.findByTeamId(teamId);
+        return requestRepository.findByTeamIdAndUserQuestionnaire_IsOpen(teamId, true);
     }
 
     @Override

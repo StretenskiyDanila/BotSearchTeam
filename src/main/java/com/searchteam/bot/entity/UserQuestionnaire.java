@@ -20,15 +20,12 @@ public class UserQuestionnaire {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project; // TODO: remove
-
     private String questionnaireText;
 
     @OneToMany
     @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
     private List<Request> requests;
 
+    @Column(name = "is_open")
     private boolean isOpen;
 }

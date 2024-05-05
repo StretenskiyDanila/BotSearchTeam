@@ -19,10 +19,10 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 //            "(SELECT team_id FROM t_request WHERE user_questionnaire_id = ?1 GROUP BY team_id)")
 //    List<Team> findFreeTeamsForUserQuestionnaire(Long userQuestionnaireId);
 
-    @Query("select t from Team t JOIN t.project p JOIN UserQuestionnaire u on u.id = ?1 " +
+    @Query(value =
+            "select t from Team t JOIN t.project p " +
             "WHERE " +
-            "p.id=u.project.id " +
-            "and t.id not in " +
+            "t.id not in " +
             "(select r.team.id FROM Request r WHERE r.userQuestionnaire.id=?1 GROUP BY r.team.id)")
     Page<Team> findFreeTeamsForUserQuestionnaire(Long userQuestionnaireId, Pageable pageable);
 
