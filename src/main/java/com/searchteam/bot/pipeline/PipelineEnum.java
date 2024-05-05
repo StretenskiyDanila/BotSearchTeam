@@ -2,6 +2,6 @@ package com.searchteam.bot.pipeline;
 
 public enum PipelineEnum {
 
-    START, CREATE_TEAM, FIND_TEAM, NONE //etc...
+    NONE, START, CREATE_QUESTIONNAIRE, CREATE_TEAM, FIND_TEAM,  //etc...
 
 }
