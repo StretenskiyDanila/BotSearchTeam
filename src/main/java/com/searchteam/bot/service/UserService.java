@@ -13,4 +13,6 @@ public interface UserService {
     Optional<User> findById(Long id);
 
     Optional<User> findByTelegramChatId(Long telegramChatId);
+
+    User createUser(String username, Long chatId);
 }
