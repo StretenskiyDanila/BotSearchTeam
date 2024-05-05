@@ -2,7 +2,7 @@ package com.searchteam.bot.service.impl;
 
 import com.searchteam.bot.entity.Request;
 import com.searchteam.bot.entity.Team;
-import com.searchteam.bot.repository.RequestRepository;
+import com.searchteam.bot.entity.User;
 import com.searchteam.bot.repository.TeamRepository;
 import com.searchteam.bot.service.RequestService;
 import com.searchteam.bot.service.TeamService;
@@ -18,8 +18,6 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
-    private final RequestRepository requestRepository;
-
     private final RequestService requestService;
 
     @Override
@@ -36,7 +34,7 @@ public class TeamServiceImpl implements TeamService {
     public Optional<Team> findById(Long id) {
         return teamRepository.findById(id);
     }
-    
+
     @Override
     public void deleteTeam(Long id) {
         teamRepository.deleteById(id);
@@ -48,5 +46,12 @@ public class TeamServiceImpl implements TeamService {
         team.setOpen(false);
         List<Request> requests = requestService.getAllRequestsTeam(team.getId());
         requests.forEach(requestService::rejectRequest);
+
+        teamRepository.save(team);
+    }
+
+    @Override
+    public Optional<Team> findTeamByUser(User user) {
+        return teamRepository.findTeamByTeamLead_Id(user.getId());
     }
 }

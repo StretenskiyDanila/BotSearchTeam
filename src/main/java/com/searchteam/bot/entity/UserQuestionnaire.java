@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "t_user_questionnaire")
 @Getter
@@ -23,5 +25,11 @@ public class UserQuestionnaire {
     private Project project;
 
     private String questionnaireText;
+    @OneToMany
+    @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
+    private List<Request> requests;
+
+
+    private boolean isOpen;
 
 }

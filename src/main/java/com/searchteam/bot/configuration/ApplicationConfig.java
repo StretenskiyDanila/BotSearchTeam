@@ -14,4 +14,7 @@ public class ApplicationConfig {
     @Value("${event.count-people}")
     private String countPeople;
 
+    @Value("${event.projects.url}")
+    private String projectsUrl;
+
 }

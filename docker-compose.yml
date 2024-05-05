@@ -1,6 +1,6 @@
 version: '3.8'
 
-name: myproject
+name: bot_search_team
 services:
   db:
     image: postgres:16-alpine

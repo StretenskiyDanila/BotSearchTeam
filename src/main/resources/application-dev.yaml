@@ -21,3 +21,5 @@ bot:
 event:
   name: ОПД
   count-people: 7
+  projects:
+    url: https://docs.google.com/spreadsheets/d/1TCBlKEKvi0HHkyBxbaLaPnytAp_hUX4X/edit#gid=508549580

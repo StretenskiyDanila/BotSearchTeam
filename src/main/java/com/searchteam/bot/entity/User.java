@@ -1,5 +1,6 @@
 package com.searchteam.bot.entity;
 
+import com.searchteam.bot.pipeline.PipelineEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,9 @@ public class User {
     private Long telegramChatId;
     private String telegramUsername;
     private Timestamp createdAt = Timestamp.from(Instant.now());
+
+    @Enumerated(EnumType.STRING)
+    private PipelineEnum pipelineStatus = PipelineEnum.START;
 
 
 }

@@ -10,12 +10,13 @@ import java.util.List;
 @Table(name = "t_team")
 @Getter
 @Setter
-
 public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String title;
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")

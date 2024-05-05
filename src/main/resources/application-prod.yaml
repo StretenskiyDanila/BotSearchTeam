@@ -21,3 +21,5 @@ bot:
 event:
   name: ${NAME_EVENT}
   count-people: ${COUNT_PEOPLE}
+  projects:
+    url: ${PROJECTS_URL}
