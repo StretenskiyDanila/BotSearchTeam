@@ -11,5 +11,5 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     List<Request> findByUserQuestionnaireId(Long userQuestionnaireId);
 
-    List<Request> findByTeamId(Long teamId);
+    List<Request> findByTeamIdAndUserQuestionnaire_IsOpen(Long teamId, boolean open);
 }
