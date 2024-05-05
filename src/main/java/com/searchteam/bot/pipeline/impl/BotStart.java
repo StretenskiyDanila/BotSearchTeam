@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -24,22 +23,6 @@ public class BotStart extends AbstractTelegramBotPipeline {
     private static final String SEARCH_MEMBER = "searchMember";
     private TelegramLongPollingBot telegramBot;
 
-    @SneakyThrows
-    @Override
-    protected void onMessageReceived(Message message, User user) {
-        SendMessage message1 = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Добро пожаловать! Вы хотите найти команду или ищете участника к себе в команду?");
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<InlineKeyboardButton> buttonList = new ArrayList<>();
-        buttonList.add(createButtonWithCallback(SEARCH_TEAM, "Хочу в команду!"));
-
-        buttonList.add(createButtonWithCallback(SEARCH_MEMBER, "Уже есть команда, ищу участника!"));
-
-        inlineKeyboardMarkup.setKeyboard(List.of(buttonList));
-        message1.setReplyMarkup(inlineKeyboardMarkup);
-        telegramBot.executeAsync(message1);
-    }
-
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
         if (SEARCH_MEMBER.equals(callbackId)) {
@@ -48,6 +31,22 @@ public class BotStart extends AbstractTelegramBotPipeline {
         if (SEARCH_TEAM.equals(callbackId)) {
             System.out.println("SEARCH TEAM");
         }
+    }
+
+    @SneakyThrows
+    @Override
+    public void enterPipeline(User user) {
+        SendMessage message1 = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
+                "Добро пожаловать! Вы хотите найти команду или ищете участника к себе в команду?");
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> buttonList = new ArrayList<>();
+        buttonList.add(createButtonWithCallback(SEARCH_TEAM, "Хочу в команду!"));
+
+        buttonList.add(createButtonWithCallback(SEARCH_MEMBER, "Ищу участника в команду!"));
+
+        inlineKeyboardMarkup.setKeyboard(List.of(buttonList));
+        message1.setReplyMarkup(inlineKeyboardMarkup);
+        telegramBot.executeAsync(message1);
     }
 
     @Override

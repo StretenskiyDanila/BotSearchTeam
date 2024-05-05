@@ -33,4 +33,14 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findByTelegramChatId(Long telegramChatId) {
         return userRepository.findFirstByTelegramChatId(telegramChatId);
     }
+
+    @Override
+    public User createUser(String username, Long chatId) {
+        User user = new User();
+        user.setTelegramUsername(username);
+        user.setTelegramChatId(chatId);
+        System.out.println("REGISTER USER");
+        return userRepository.save(user);
+
+    }
 }

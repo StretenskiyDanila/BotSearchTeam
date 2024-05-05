@@ -5,6 +5,8 @@ import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.PipelineEnum;
 import com.searchteam.bot.pipeline.TelegramBotPipeline;
 import com.searchteam.bot.repository.UserRepository;
+import com.searchteam.bot.service.TelegramService;
+import com.searchteam.bot.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -28,6 +30,9 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private Map<PipelineEnum, TelegramBotPipeline> pipelineMap;
 
+    private final UserService userService;
+    private final TelegramService telegramService;
+
     @SneakyThrows
     @PostConstruct
     public void init() {
@@ -47,15 +52,17 @@ public class TelegramBot extends TelegramLongPollingBot {
         } else {
             return;
         }
-        User user = userRepository.findFirstByTelegramChatId(chatId).orElseGet(() -> {
-            User user1 = new User();
-            user1.setTelegramUsername(userName);
-            user1.setTelegramChatId(chatId);
-            System.out.println("REGISTER USER");
-            return userRepository.save(user1);
-        });
+        User user = userRepository.findFirstByTelegramChatId(chatId).orElseGet(() -> userService.createUser(userName, chatId));
+
+        if (user.getPipelineStatus() == PipelineEnum.NONE) {
+            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.START);
+        }
 
         pipelineMap.get(user.getPipelineStatus()).onUpdateReceived(update, user);
+    }
+
+    public Map<PipelineEnum, TelegramBotPipeline> getPipelineMap() {
+        return pipelineMap;
     }
 
     @Override

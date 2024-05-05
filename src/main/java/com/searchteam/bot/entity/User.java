@@ -23,7 +23,7 @@ public class User {
     private Timestamp createdAt = Timestamp.from(Instant.now());
 
     @Enumerated(EnumType.STRING)
-    private PipelineEnum pipelineStatus = PipelineEnum.START;
+    private PipelineEnum pipelineStatus = PipelineEnum.NONE;
 
 
 }
