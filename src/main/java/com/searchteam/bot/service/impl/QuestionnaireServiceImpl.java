@@ -31,6 +31,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     public Optional<UserQuestionnaire> findByUserId(Long userId) {
-        throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
+        //throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
+        return userQuestionnaireRepository.findByUserId(userId);
     }
 }

@@ -25,5 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private PipelineEnum pipelineStatus = PipelineEnum.NONE;
 
-
+    private Integer currentProjectChoice;
+    private Integer currentTeamChoice;
 }

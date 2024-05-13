@@ -4,6 +4,7 @@ import com.searchteam.bot.controller.TelegramBot;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
+import com.searchteam.bot.service.QuestionnaireService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.utils.TelegramChatUtils;
 import lombok.RequiredArgsConstructor;

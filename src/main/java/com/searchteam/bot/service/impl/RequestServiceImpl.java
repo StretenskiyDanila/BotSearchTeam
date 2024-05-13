@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<Request> getAllRequestsByUserQuestionnaireId(Long userQuestionnaireId) {
+    public Optional<Request> getAllRequestsByUserQuestionnaireId(Long userQuestionnaireId) {
         return requestRepository.findByUserQuestionnaireId(userQuestionnaireId);
     }
 
@@ -58,4 +59,8 @@ public class RequestServiceImpl implements RequestService {
 
     }
 
+    @Override
+    public Optional<Request> findByUserQuestionnaireId(Long requestId) {
+        return requestRepository.findByUserQuestionnaireId(requestId);
+    }
 }
