@@ -5,7 +5,7 @@ services:
   db:
     image: postgres:16-alpine
     ports:
-      - "9000:5432"
+      - "5555:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: YQgD1d
