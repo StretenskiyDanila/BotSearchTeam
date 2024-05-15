@@ -19,15 +19,15 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class SubmittedQuestionnaire extends AbstractTelegramBotPipeline {
+public class TeamCreated extends AbstractTelegramBotPipeline {
 
-    private final TelegramService telegramService;
     private final TelegramBot telegramBot;
+    private final TelegramService telegramService;
 
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
-        if (callbackId.equals("back")) {
-            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.COMPLETED_QUESTIONNAIRE);
+        if (callbackId.equals("team")) {
+            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.TEAM_ACCOUNT);
         }
     }
 
@@ -35,11 +35,11 @@ public class SubmittedQuestionnaire extends AbstractTelegramBotPipeline {
     @SneakyThrows
     public void enterPipeline(User user) {
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Заявка отправлена!");
-
+                "Команда успешно добавлена!");
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
-        buttonList.add(createButtonWithCallback("back", "Вернуться в меню"));
+
+        buttonList.add(createButtonWithCallback("team", "Посмотреть профиль команды"));
 
         inlineKeyboardMarkup.setKeyboard(List.of(buttonList));
         message.setReplyMarkup(inlineKeyboardMarkup);
@@ -48,6 +48,6 @@ public class SubmittedQuestionnaire extends AbstractTelegramBotPipeline {
 
     @Override
     public PipelineEnum getPipelineEnum() {
-        return PipelineEnum.SUBMITTED_QUESTIONNAIRE;
+        return PipelineEnum.CREATED_TEAM;
     }
 }

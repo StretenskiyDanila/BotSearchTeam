@@ -2,10 +2,8 @@ package com.searchteam.bot.pipeline.impl;
 
 import com.searchteam.bot.controller.TelegramBot;
 import com.searchteam.bot.entity.User;
-import com.searchteam.bot.entity.UserQuestionnaire;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
-import com.searchteam.bot.service.QuestionnaireService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.utils.TelegramChatUtils;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,6 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 

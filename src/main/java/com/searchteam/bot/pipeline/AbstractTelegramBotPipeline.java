@@ -32,4 +32,5 @@ public abstract class AbstractTelegramBotPipeline implements TelegramBotPipeline
 
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
     }
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "t_team")
 @Getter
 @Setter
-@ToString(exclude = {"requests"})
+@ToString(exclude = {"requests", "users", "requests"})
 public class Team {
 
     @Id
@@ -31,6 +31,9 @@ public class Team {
     private String description;
 
     private boolean isOpen;
+
+    @OneToMany(mappedBy = "team")
+    List<User> users;
 
     @OneToMany
     @JoinColumn(name = "team_id", referencedColumnName = "id")

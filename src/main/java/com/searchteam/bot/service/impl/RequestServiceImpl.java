@@ -63,4 +63,9 @@ public class RequestServiceImpl implements RequestService {
     public Optional<Request> findByUserQuestionnaireId(Long requestId) {
         return requestRepository.findByUserQuestionnaireId(requestId);
     }
+
+    @Override
+    public Optional<Request> findById(Long requestId) {
+        return requestRepository.findById(requestId);
+    }
 }

@@ -67,8 +67,7 @@ public class SelectedTeam extends AbstractTelegramBotPipeline {
 
     private void sendRequest(User user) {
         UserQuestionnaire questionnaire = questionnaireService.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
-        var request = requestService.findByUserQuestionnaireId(questionnaire.getId());
-        if (request.isPresent()) {
+        requestService.findByUserQuestionnaireId(questionnaire.getId()).ifPresentOrElse(req -> {
             SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                     "Вы уже отправили анкету в данный проект!");
             try {
@@ -77,13 +76,12 @@ public class SelectedTeam extends AbstractTelegramBotPipeline {
                 throw new RuntimeException(e);
             }
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.TEAM_CHOICE);
-            return;
-        }
-        Request newRequest = new Request();
-        Team team = teamService.findById(Long.valueOf(user.getCurrentTeamChoice())).orElseThrow(RuntimeException::new);
-
-        newRequest.setTeam(team);
-        newRequest.setUserQuestionnaire(questionnaire);
-        requestService.saveRequest(newRequest);
+        }, () -> {
+            Request request = new Request();
+            Team team = teamService.findById(Long.valueOf(user.getCurrentTeamChoice())).orElseThrow(RuntimeException::new);
+            request.setTeam(team);
+            request.setUserQuestionnaire(questionnaire);
+            requestService.saveRequest(request);
+        });
     }
 }

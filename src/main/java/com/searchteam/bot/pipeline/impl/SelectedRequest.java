@@ -1,10 +1,10 @@
 package com.searchteam.bot.pipeline.impl;
 
 import com.searchteam.bot.controller.TelegramBot;
-import com.searchteam.bot.entity.Team;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
+import com.searchteam.bot.service.RequestService;
 import com.searchteam.bot.service.TeamService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.service.UserService;
@@ -22,48 +22,47 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ChoiceTeam extends AbstractTelegramBotPipeline {
+public class SelectedRequest extends AbstractTelegramBotPipeline {
 
-    private final static String TEAM = "TEAM-%d";
+    private static final String REJECT = "REJECT-%d";
+    private static final String ACCEPT = "ACCEPT-%d";
 
-    private final TeamService teamService;
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
     private final UserService userService;
+    private final RequestService requestService;
+    private final TeamService teamService;
+
 
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
-        if (callbackId.equals("back")) {
-            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.PROJECT_CHOICE);
-            return;
+        if (callbackId.contains("ACCEPT")) {
+            long requestId = Long.parseLong(callbackId.split("-")[1]);
+            var request = requestService.findById(requestId).get();
+            requestService.acceptRequest(request);
         }
-        int teamId = Integer.parseInt(callbackId.split("-")[1]);
-        user.setCurrentTeamChoice(teamId);
-        userService.update(user);
-        telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.SELECTED_TEAM);
+        if (callbackId.contains("REJECT")) {
+            long requestId = Long.parseLong(callbackId.split("-")[1]);
+            var request = requestService.findById(requestId).get();
+            requestService.rejectRequest(request);
+        }
+        telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.CHECK_REQUESTS);
     }
 
     @Override
     @SneakyThrows
     public void enterPipeline(User user) {
+        var request = requestService.findById(user.getCurrentRequestChoice()).get();
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Выберите команду");
-        List<Team> allTeams = teamService.findAll();
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<InlineKeyboardButton> buttonList = new ArrayList<>();
-        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-        for(Team team : allTeams) {
-            buttonList.add(createButtonWithCallback(String.format(TEAM, team.getId()), team.getTitle()));
-            if(buttonList.size() == 3) {
-                rows.add(buttonList);
-                buttonList = new ArrayList<>();
-            }
-        }
-        if (!buttonList.isEmpty()) {
-            rows.add(buttonList);
-        }
-        rows.add(List.of(createButtonWithCallback("back", "Вернуться на прошлый шаг")));
+                "Заявка на вступление в команду:");
+        //@TODO описание заявки, участник, его анкета
 
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+
+        rows.add(List.of(createButtonWithCallback(String.format(REJECT, request.getId()), "Отклонить")));
+        rows.add(List.of(createButtonWithCallback(String.format(ACCEPT, request.getId()), "Принять")));
+        rows.add(List.of(createButtonWithCallback("backToRequests", "Вернуться к заявкам")));
         inlineKeyboardMarkup.setKeyboard(rows);
         message.setReplyMarkup(inlineKeyboardMarkup);
         telegramBot.executeAsync(message);
@@ -71,6 +70,6 @@ public class ChoiceTeam extends AbstractTelegramBotPipeline {
 
     @Override
     public PipelineEnum getPipelineEnum() {
-        return PipelineEnum.TEAM_CHOICE;
+        return PipelineEnum.SELECTED_REQUEST;
     }
 }

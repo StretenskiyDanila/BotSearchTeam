@@ -16,4 +16,5 @@ public interface RequestService {
     void acceptRequest(Request request);
 
     Optional<Request> findByUserQuestionnaireId(Long requestId);
+    Optional<Request> findById(Long requestId);
 }

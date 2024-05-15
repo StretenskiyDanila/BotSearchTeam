@@ -4,7 +4,6 @@ import com.searchteam.bot.controller.TelegramBot;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
-import com.searchteam.bot.service.QuestionnaireService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.utils.TelegramChatUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.searchteam.bot.pipeline.PipelineEnum.CREATE_QUESTIONNAIRE;
-import static com.searchteam.bot.pipeline.PipelineEnum.CREATE_TEAM;
+import static com.searchteam.bot.pipeline.PipelineEnum.TEAM_LEAD_CHOICE_PROJECT;
 
 @Component
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class BotStart extends AbstractTelegramBotPipeline {
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
         if (SEARCH_MEMBER.equals(callbackId)) {
-            telegramService.setTelegramUserPipelineStatus(user, CREATE_TEAM);
+            telegramService.setTelegramUserPipelineStatus(user, TEAM_LEAD_CHOICE_PROJECT);
         }
         if (SEARCH_TEAM.equals(callbackId)) {
             telegramService.setTelegramUserPipelineStatus(user, CREATE_QUESTIONNAIRE);
