@@ -1,8 +1,10 @@
 package com.searchteam.bot.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @Table(name = "t_user_questionnaire")
 @Getter
 @Setter
+@ToString(exclude = {"requests"})
 public class UserQuestionnaire {
 
     @Id

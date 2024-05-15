@@ -19,11 +19,21 @@ public class User {
     private Long id;
 
     private Long telegramChatId;
+
     private String telegramUsername;
+
     private Timestamp createdAt = Timestamp.from(Instant.now());
 
     @Enumerated(EnumType.STRING)
     private PipelineEnum pipelineStatus = PipelineEnum.NONE;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
+    private Integer currentProjectChoice;
+
+    private Integer currentTeamChoice;
+
+    private Long currentRequestChoice;
 }

@@ -54,4 +54,9 @@ public class TeamServiceImpl implements TeamService {
     public Optional<Team> findTeamByUser(User user) {
         return teamRepository.findTeamByTeamLead_Id(user.getId());
     }
+
+    @Override
+    public List<Team> findAll() {
+        return teamRepository.findAll();
+    }
 }
