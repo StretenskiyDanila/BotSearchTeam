@@ -31,4 +31,9 @@ public class UserQuestionnaire {
 
     @Column(name = "is_open")
     private boolean isOpen;
+
+    @Override
+    public String toString() {
+        return questionnaireText;
+    }
 }
