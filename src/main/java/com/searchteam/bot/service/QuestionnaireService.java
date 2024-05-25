@@ -13,4 +13,6 @@ public interface QuestionnaireService {
     Optional<UserQuestionnaire> findById(Long id);
 
     Optional<UserQuestionnaire> findByUserId(Long userId);
+
+    void deleteByUserId(Long userId);
 }

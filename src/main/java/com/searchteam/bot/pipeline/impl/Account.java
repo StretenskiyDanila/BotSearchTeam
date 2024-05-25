@@ -7,6 +7,7 @@ import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
 import com.searchteam.bot.service.QuestionnaireService;
 import com.searchteam.bot.service.TelegramService;
+import com.searchteam.bot.service.UserService;
 import com.searchteam.bot.utils.TelegramChatUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -24,6 +25,7 @@ import java.util.List;
 public class Account extends AbstractTelegramBotPipeline {
 
     private static final String EDIT_QUESTIONNAIRE = "editQuestionnaire";
+    private static final String DELETE_QUESTIONNAIRE = "deleteQuestionnaire";
     private static final String PROJECT_CHOICE = "projectChoice";
 
     private final TelegramService telegramService;
@@ -38,6 +40,10 @@ public class Account extends AbstractTelegramBotPipeline {
         if(EDIT_QUESTIONNAIRE.equals(callbackId)) {
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.CREATE_QUESTIONNAIRE);
         }
+        if(DELETE_QUESTIONNAIRE.equals(callbackId)) {
+            questionnaireService.deleteByUserId(user.getId());
+            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.START);
+        }
     }
 
     @Override
@@ -49,7 +55,7 @@ public class Account extends AbstractTelegramBotPipeline {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         buttonList.add(createButtonWithCallback(EDIT_QUESTIONNAIRE, "Редактировать анкету"));
-
+        buttonList.add(createButtonWithCallback(DELETE_QUESTIONNAIRE, "Удалить анкету"));
         buttonList.add(createButtonWithCallback(PROJECT_CHOICE, "Найти команду"));
 
         inlineKeyboardMarkup.setKeyboard(List.of(buttonList));
