@@ -36,4 +36,6 @@ public class User {
     private Integer currentTeamChoice;
 
     private Long currentRequestChoice;
+
+    private Integer currentPage;
 }
