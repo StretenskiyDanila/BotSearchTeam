@@ -35,7 +35,7 @@ public class CreateQuestionnaire extends AbstractTelegramBotPipeline {
 
     private void addUserQuestionnaire(Message message, User user) {
         String messageText = message.getText();
-        UserQuestionnaire ques = questionnaireService.findByUserId(user.getId()).get();
+        UserQuestionnaire ques = questionnaireService.findByUserId(user.getId()).orElseGet(UserQuestionnaire::new);
         ques.setUser(user);
         ques.setQuestionnaireText(messageText);
         ques.setOpen(true);
