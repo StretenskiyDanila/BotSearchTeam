@@ -43,18 +43,20 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         String userName;
         Long chatId;
+        String messageText = "";
         if (update.hasCallbackQuery()) {
             userName = update.getCallbackQuery().getFrom().getUserName();
             chatId = update.getCallbackQuery().getMessage().getChatId();
         } else if (update.hasMessage()) {
             userName = update.getMessage().getFrom().getUserName();
             chatId = update.getMessage().getChatId();
+            messageText = update.getMessage().getText();
         } else {
             return;
         }
         User user = userRepository.findFirstByTelegramChatId(chatId).orElseGet(() -> userService.createUser(userName, chatId));
 
-        if (user.getPipelineStatus() == PipelineEnum.NONE) {
+        if (user.getPipelineStatus() == PipelineEnum.NONE || messageText.equals("/start")) {
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.START);
         }
 
