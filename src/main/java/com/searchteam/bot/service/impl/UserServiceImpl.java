@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByTelegramChatId(Long telegramChatId) {
-        return userRepository.findFirstByTelegramChatId(telegramChatId);
+        return userRepository.findByTelegramChatId(telegramChatId);
     }
 
     @Override

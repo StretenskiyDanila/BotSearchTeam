@@ -23,4 +23,9 @@ public class Request {
     @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
     private UserQuestionnaire userQuestionnaire;
 
+    @Override
+    public String toString() {
+        return userQuestionnaire.getUser().getTelegramUsername() + "\n" +
+                userQuestionnaire;
+    }
 }

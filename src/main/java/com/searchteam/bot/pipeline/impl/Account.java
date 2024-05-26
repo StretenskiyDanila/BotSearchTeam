@@ -49,7 +49,8 @@ public class Account extends AbstractTelegramBotPipeline {
     @Override
     @SneakyThrows
     public void enterPipeline(User user) {
-        UserQuestionnaire questionnaire = questionnaireService.findByUserId(user.getId()).orElseThrow(() -> new RuntimeException("Questionnaire not found"));
+        UserQuestionnaire questionnaire = questionnaireService.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Questionnaire not found"));
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                 "Ваша анкета:\n" + questionnaire.toString());
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

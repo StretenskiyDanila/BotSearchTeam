@@ -1,6 +1,7 @@
 package com.searchteam.bot.pipeline.impl;
 
 import com.searchteam.bot.controller.TelegramBot;
+import com.searchteam.bot.entity.Team;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
@@ -41,9 +42,11 @@ public class TeamAccount extends AbstractTelegramBotPipeline {
     @Override
     @SneakyThrows
     public void enterPipeline(User user) {
+        Team team = teamService.findById(Long.valueOf(user.getCurrentTeamChoice())).get();
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Ваша команда:");
+                "Ваша команда:\n" + team);
         //@TODO описание команды, все участники и тд
+
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
 

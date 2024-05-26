@@ -37,5 +37,6 @@ public class User {
 
     private Long currentRequestChoice;
 
+    @Transient
     private Integer currentPage;
 }

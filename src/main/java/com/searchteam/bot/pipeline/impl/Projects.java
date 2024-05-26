@@ -1,3 +1,4 @@
+/*
 package com.searchteam.bot.pipeline.impl;
 
 import com.searchteam.bot.controller.TelegramBot;
@@ -91,3 +92,4 @@ public class Projects extends AbstractTelegramBotPipeline {
         });
     }
 }
+*/

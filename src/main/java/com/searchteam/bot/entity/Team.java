@@ -20,9 +20,7 @@ public class Team {
 
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project;
+    private Integer projectId;
 
     @OneToOne
     @JoinColumn(name = "team_lead_id", referencedColumnName = "id")
@@ -39,4 +37,8 @@ public class Team {
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private List<Request> requests;
 
+    @Override
+    public String toString() {
+        return title + "\n" + description;
+    }
 }

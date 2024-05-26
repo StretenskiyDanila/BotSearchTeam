@@ -54,7 +54,7 @@ public class SelectedRequest extends AbstractTelegramBotPipeline {
     public void enterPipeline(User user) {
         var request = requestService.findById(user.getCurrentRequestChoice()).get();
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Заявка на вступление в команду:");
+                "Заявка на вступление в команду:\n" + request);
         //@TODO описание заявки, участник, его анкета
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

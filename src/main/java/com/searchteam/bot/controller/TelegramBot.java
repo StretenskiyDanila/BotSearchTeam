@@ -8,6 +8,7 @@ import com.searchteam.bot.repository.UserRepository;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.service.UserService;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final UserRepository userRepository;
 
+    @Getter
     private Map<PipelineEnum, TelegramBotPipeline> pipelineMap;
 
     private final UserService userService;
@@ -54,17 +56,14 @@ public class TelegramBot extends TelegramLongPollingBot {
         } else {
             return;
         }
-        User user = userRepository.findFirstByTelegramChatId(chatId).orElseGet(() -> userService.createUser(userName, chatId));
+        User user = userRepository.findByTelegramChatId(chatId)
+                .orElseGet(() -> userService.createUser(userName, chatId));
 
         if (user.getPipelineStatus() == PipelineEnum.NONE || messageText.equals("/start")) {
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.START);
         }
 
         pipelineMap.get(user.getPipelineStatus()).onUpdateReceived(update, user);
-    }
-
-    public Map<PipelineEnum, TelegramBotPipeline> getPipelineMap() {
-        return pipelineMap;
     }
 
     @Override

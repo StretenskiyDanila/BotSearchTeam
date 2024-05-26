@@ -1,11 +1,12 @@
 package com.searchteam.bot.pipeline.impl;
 
+import com.searchteam.bot.configuration.ApplicationConfig;
 import com.searchteam.bot.controller.TelegramBot;
-import com.searchteam.bot.entity.Project;
+import com.searchteam.bot.entity.Team;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
-import com.searchteam.bot.service.ProjectService;
+import com.searchteam.bot.service.FindTeamService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.service.UserService;
 import com.searchteam.bot.utils.TelegramChatUtils;
@@ -14,6 +15,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -24,12 +26,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectChoice extends AbstractTelegramBotPipeline {
 
-    private final String PROJECT = "PROJECT-%d";
+    private final String TEAM = "TEAM-%d";
 
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
-    private final ProjectService projectService;
     private final UserService userService;
+    private final FindTeamService findTeamByProjectId;
+    private final ApplicationConfig applicationConfig;
 
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
@@ -43,18 +46,16 @@ public class ProjectChoice extends AbstractTelegramBotPipeline {
         telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.TEAM_CHOICE);
     }
 
-    @Override
-    @SneakyThrows
-    public void enterPipeline(User user) {
-        SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Выберите проект");
-        List<Project> allProjects = projectService.findAll();
+    /*@Override
+    protected void onMessageReceived(Message message, User user) {
+        int projectId = Integer.parseInt(message.getText());
+        List<Team> teams = findTeamByProjectId.findTeamByProjectId(projectId);
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-        for(Project project : allProjects) {
-            buttonList.add(createButtonWithCallback(String.format(PROJECT, project.getId()), project.getProjectName()));
-            if(buttonList.size() == 3) {
+        for (Team team : teams) {
+            buttonList.add(createButtonWithCallback(String.format(TEAM, team.getId()), team.getTitle()));
+            if (buttonList.size() == 3) {
                 rows.add(buttonList);
                 buttonList = new ArrayList<>();
             }
@@ -66,6 +67,13 @@ public class ProjectChoice extends AbstractTelegramBotPipeline {
 
         inlineKeyboardMarkup.setKeyboard(rows);
         message.setReplyMarkup(inlineKeyboardMarkup);
+    }*/
+
+    @Override
+    @SneakyThrows
+    public void enterPipeline(User user) {
+        SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
+                "Введите id проекта из таблицы:" + applicationConfig.getProjectsUrl());
         telegramBot.executeAsync(message);
     }
 
