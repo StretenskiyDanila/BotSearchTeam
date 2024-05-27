@@ -14,8 +14,8 @@ import java.util.Optional;
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
     Optional<Team> findTeamByTeamLead_Id(Long userId);
-
     List<Team> findTeamByProjectId(Integer projectId);
+    boolean existsByTitle(String title);
 
 //    @Query(nativeQuery = true, value = "SELECT * FROM t_team" +
 //            " WHERE id NOT IN " +

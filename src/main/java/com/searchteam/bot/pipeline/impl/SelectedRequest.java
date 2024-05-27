@@ -5,9 +5,7 @@ import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
 import com.searchteam.bot.service.RequestService;
-import com.searchteam.bot.service.TeamService;
 import com.searchteam.bot.service.TelegramService;
-import com.searchteam.bot.service.UserService;
 import com.searchteam.bot.utils.TelegramChatUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -29,9 +27,7 @@ public class SelectedRequest extends AbstractTelegramBotPipeline {
 
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
-    private final UserService userService;
     private final RequestService requestService;
-    private final TeamService teamService;
 
 
     @Override

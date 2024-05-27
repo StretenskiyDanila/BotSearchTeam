@@ -56,15 +56,26 @@ public class Requests extends AbstractTelegramBotPipeline {
     @Override
     @SneakyThrows
     public void enterPipeline(User user) {
+        List<Request> requests = requestService.getAllRequestsTeam(user.getTeam().getId());
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> navigationButtons = new ArrayList<>();
+
+        if (requests.isEmpty()) {
+            SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
+                    "Заявок в команду не найдено");
+
+            navigationButtons.add(createButtonWithCallback(BACK_TO_COMMAND, "Вернуться к команде"));
+            inlineKeyboardMarkup.setKeyboard(List.of(navigationButtons));
+            message.setReplyMarkup(inlineKeyboardMarkup);
+            telegramBot.executeAsync(message);
+            return;
+        }
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                 "Все заявки на вступление в команду");
-
         Integer page = user.getCurrentPage();
-        List<Request> requests = requestService.getAllRequestsTeam(user.getTeam().getId());
         int pageSize = 5;
         int totalPages = (int) Math.ceil((double) requests.size() / pageSize);
 
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
 
         int startIndex = page * pageSize;
@@ -77,7 +88,6 @@ public class Requests extends AbstractTelegramBotPipeline {
             rows.add(buttonList);
         }
 
-        List<InlineKeyboardButton> navigationButtons = new ArrayList<>();
         if (page > 0) {
             navigationButtons.add(createButtonWithCallback(PREV_PAGE, "Предыдущая страница"));
         }

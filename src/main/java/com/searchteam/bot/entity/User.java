@@ -33,7 +33,7 @@ public class User {
 
     private Integer currentProjectChoice;
 
-    private Integer currentTeamChoice;
+    private Long currentTeamChoice;
 
     private Long currentRequestChoice;
 

@@ -52,7 +52,7 @@ public class Account extends AbstractTelegramBotPipeline {
         UserQuestionnaire questionnaire = questionnaireService.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Questionnaire not found"));
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Ваша анкета:\n" + questionnaire.toString());
+                "Ваша анкета:\n" + questionnaire);
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         buttonList.add(createButtonWithCallback(EDIT_QUESTIONNAIRE, "Редактировать анкету"));
