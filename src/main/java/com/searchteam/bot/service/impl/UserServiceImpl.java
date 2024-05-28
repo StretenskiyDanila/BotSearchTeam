@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setTelegramUsername(username);
         user.setTelegramChatId(chatId);
-        user.setCurrentPage(0);
         System.out.println("REGISTER USER");
         return userRepository.save(user);
     }

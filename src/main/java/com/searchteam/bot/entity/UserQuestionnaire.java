@@ -24,8 +24,7 @@ public class UserQuestionnaire {
 
     private String questionnaireText;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "userQuestionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Request> requests;
 
     @Column(name = "is_open")

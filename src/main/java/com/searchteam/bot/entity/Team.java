@@ -27,8 +27,7 @@ public class Team {
 
     private boolean isOpen;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Request> requests;
 
     @Override
