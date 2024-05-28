@@ -6,12 +6,11 @@ spring:
       skip:
         in-tests: true
       lifecycle-management: start_and_stop
-      enabled: true
+      enabled: false
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5555/SearchTeam
-    username: postgres
-    password: YQgD1d
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   sql:
     init:
       mode: never
@@ -20,6 +19,7 @@ bot:
   name: SearchTeamPolytech
 event:
   name: ${NAME_EVENT}
+  password: ${EVENT_PASSWORD}
   count-people: ${COUNT_PEOPLE}
   projects:
     url: ${PROJECTS_URL}

@@ -24,7 +24,7 @@ public abstract class AbstractTelegramBotPipeline implements TelegramBotPipeline
         }
     }
 
-    protected InlineKeyboardButton createButtonWithCallback(String buttonId, String buttonMessage) {
+    protected static InlineKeyboardButton createButtonWithCallback(String buttonId, String buttonMessage) {
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setCallbackData(buttonId);
         button.setText(buttonMessage);
