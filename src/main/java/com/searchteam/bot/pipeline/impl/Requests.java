@@ -56,7 +56,7 @@ public class Requests extends AbstractTelegramBotPipeline {
     @Override
     @SneakyThrows
     public void enterPipeline(User user) {
-        List<Request> requests = requestService.getAllRequestsTeam(user.getTeam().getId());
+        List<Request> requests = requestService.getAllRequestsTeam(user.getCurrentTeamChoice());
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> navigationButtons = new ArrayList<>();
 
@@ -73,6 +73,7 @@ public class Requests extends AbstractTelegramBotPipeline {
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                 "Все заявки на вступление в команду");
         Integer page = user.getCurrentPage();
+        if (page == null) page = 0;
         int pageSize = 5;
         int totalPages = (int) Math.ceil((double) requests.size() / pageSize);
 

@@ -60,6 +60,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 .orElseGet(() -> userService.createUser(userName, chatId));
 
         if (user.getPipelineStatus() == PipelineEnum.NONE || messageText.equals("/start")) {
+
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.START);
         }
 

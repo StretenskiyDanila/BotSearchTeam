@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.searchteam.bot.pipeline.PipelineEnum.CREATE_QUESTIONNAIRE;
 import static com.searchteam.bot.pipeline.PipelineEnum.TEAM_LEAD_CHOICE_PROJECT;
+import static com.searchteam.bot.pipeline.PipelineEnum.ADMIN_CHECK;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class BotStart extends AbstractTelegramBotPipeline {
 
     private static final String SEARCH_TEAM = "searchTeam";
     private static final String SEARCH_MEMBER = "searchMember";
+    private static final String ADMIN_STATISTIC = "adminStatistic";
 
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
@@ -38,6 +40,9 @@ public class BotStart extends AbstractTelegramBotPipeline {
         if (SEARCH_TEAM.equals(callbackId)) {
             telegramService.setTelegramUserPipelineStatus(user, CREATE_QUESTIONNAIRE);
         }
+        if (ADMIN_STATISTIC.equals(callbackId)) {
+            telegramService.setTelegramUserPipelineStatus(user, ADMIN_CHECK);
+        }
     }
 
     @SneakyThrows
@@ -48,8 +53,8 @@ public class BotStart extends AbstractTelegramBotPipeline {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         buttonList.add(createButtonWithCallback(SEARCH_TEAM, "Хочу в команду!"));
-
         buttonList.add(createButtonWithCallback(SEARCH_MEMBER, "Ищу участника в команду!"));
+        buttonList.add(createButtonWithCallback(ADMIN_STATISTIC, "Посмотреть статистику работы бота (нужен пароль администратора)"));
 
         inlineKeyboardMarkup.setKeyboard(List.of(buttonList));
         message1.setReplyMarkup(inlineKeyboardMarkup);

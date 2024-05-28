@@ -4,8 +4,10 @@ import com.searchteam.bot.entity.Team;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
+import com.searchteam.bot.service.StatisticService;
 import com.searchteam.bot.service.TeamService;
 import com.searchteam.bot.service.TelegramService;
+import com.searchteam.bot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,8 @@ public class AddTeam extends AbstractTelegramBotPipeline {
 
     private final TelegramService telegramService;
     private final TeamService teamService;
+    private final UserService userService;
+    private final StatisticService statisticService;
 
     @Override
     protected void onMessageReceived(Message message, User user) {
@@ -48,6 +52,11 @@ public class AddTeam extends AbstractTelegramBotPipeline {
         team.setProjectId(user.getCurrentProjectChoice());
         team.setTitle(teamDescriptions[0]);
         teamService.update(team);
+
+        statisticService.addTeamStatistic(teamDescriptions[0]);
+        team = teamService.findTeamByUser(user).get();
+        user.setCurrentTeamChoice(team.getId());
+        userService.update(user);
     }
 
     private String[] parseMessage(String message) {

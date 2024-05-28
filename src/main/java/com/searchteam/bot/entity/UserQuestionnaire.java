@@ -12,7 +12,6 @@ import java.util.List;
 @Table(name = "t_user_questionnaire")
 @Getter
 @Setter
-@ToString(exclude = {"requests"})
 public class UserQuestionnaire {
 
     @Id
@@ -25,7 +24,7 @@ public class UserQuestionnaire {
 
     private String questionnaireText;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_questionnaire_id", referencedColumnName = "id")
     private List<Request> requests;
 

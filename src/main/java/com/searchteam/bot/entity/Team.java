@@ -27,10 +27,7 @@ public class Team {
 
     private boolean isOpen;
 
-    @OneToMany(mappedBy = "team")
-    List<User> users;
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private List<Request> requests;
 
