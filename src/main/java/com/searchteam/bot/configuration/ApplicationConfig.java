@@ -17,4 +17,7 @@ public class ApplicationConfig {
     @Value("${event.projects.url}")
     private String projectsUrl;
 
+    @Value("${event.password}")
+    private String password;
+
 }

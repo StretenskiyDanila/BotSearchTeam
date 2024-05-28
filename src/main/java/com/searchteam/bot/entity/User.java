@@ -27,15 +27,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private PipelineEnum pipelineStatus = PipelineEnum.NONE;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
-
     private Integer currentProjectChoice;
 
-    private Integer currentTeamChoice;
+    private Long currentTeamChoice;
 
     private Long currentRequestChoice;
 
+    @Transient
     private Integer currentPage;
+
 }

@@ -27,7 +27,7 @@ public class SubmittedQuestionnaire extends AbstractTelegramBotPipeline {
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
         if (callbackId.equals("back")) {
-            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.COMPLETED_QUESTIONNAIRE);
+            telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.ACCOUNT);
         }
     }
 

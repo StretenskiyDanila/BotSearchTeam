@@ -5,9 +5,8 @@ import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
 import com.searchteam.bot.service.RequestService;
-import com.searchteam.bot.service.TeamService;
+import com.searchteam.bot.service.StatisticService;
 import com.searchteam.bot.service.TelegramService;
-import com.searchteam.bot.service.UserService;
 import com.searchteam.bot.utils.TelegramChatUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -29,9 +28,8 @@ public class SelectedRequest extends AbstractTelegramBotPipeline {
 
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
-    private final UserService userService;
     private final RequestService requestService;
-    private final TeamService teamService;
+    private final StatisticService statisticService;
 
 
     @Override
@@ -40,6 +38,7 @@ public class SelectedRequest extends AbstractTelegramBotPipeline {
             long requestId = Long.parseLong(callbackId.split("-")[1]);
             var request = requestService.findById(requestId).get();
             requestService.acceptRequest(request);
+            statisticService.incrementFoundUsers(request.getTeam().getTitle());
         }
         if (callbackId.contains("REJECT")) {
             long requestId = Long.parseLong(callbackId.split("-")[1]);
@@ -54,8 +53,7 @@ public class SelectedRequest extends AbstractTelegramBotPipeline {
     public void enterPipeline(User user) {
         var request = requestService.findById(user.getCurrentRequestChoice()).get();
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Заявка на вступление в команду:");
-        //@TODO описание заявки, участник, его анкета
+                "Заявка на вступление в команду:\n" + request);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();

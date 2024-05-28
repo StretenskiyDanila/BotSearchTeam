@@ -5,15 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "t_project")
+@Table(name = "t_statistic")
 @Getter
 @Setter
-public class Project {
+public class Statistic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String projectName;
-    private String projectDescription;
+    @Column(name = "count_found_users")
+    private Integer countFoundUsers = 0;
+
+    @Column(name = "team_title")
+    private String teamTitle;
+
 }

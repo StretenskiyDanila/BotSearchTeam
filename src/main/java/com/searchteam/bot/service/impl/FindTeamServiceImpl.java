@@ -23,4 +23,10 @@ public class FindTeamServiceImpl implements FindTeamService {
                         .withPage(page))
                 .getContent();
     }
+
+    @Override
+    public List<Team> findTeamByProjectId(Integer projectId) {
+        return teamRepository.findTeamByProjectId(projectId);
+    }
+
 }
