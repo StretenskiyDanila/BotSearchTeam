@@ -27,7 +27,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team update(Team team) {
-        return teamRepository.save(team);
+        return teamRepository.saveAndFlush(team);
     }
 
     @Override
@@ -36,7 +36,10 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional
     public void deleteTeam(Long id) {
+        List<Request> requests = requestService.getAllRequestsTeam(id);
+        requests.forEach(requestService::rejectRequest);
         teamRepository.deleteById(id);
     }
 
@@ -44,9 +47,6 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public void closeTeam(Team team) {
         team.setOpen(false);
-        List<Request> requests = requestService.getAllRequestsTeam(team.getId());
-        requests.forEach(requestService::rejectRequest);
-
         teamRepository.save(team);
     }
 

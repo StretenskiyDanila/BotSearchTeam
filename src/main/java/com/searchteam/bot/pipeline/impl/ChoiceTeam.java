@@ -5,6 +5,7 @@ import com.searchteam.bot.entity.Team;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
+import com.searchteam.bot.service.FindTeamService;
 import com.searchteam.bot.service.TeamService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.service.UserService;
@@ -26,7 +27,7 @@ public class ChoiceTeam extends AbstractTelegramBotPipeline {
 
     private final static String TEAM = "TEAM-%d";
 
-    private final TeamService teamService;
+    private final FindTeamService findTeamService;
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
     private final UserService userService;
@@ -37,7 +38,7 @@ public class ChoiceTeam extends AbstractTelegramBotPipeline {
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.PROJECT_CHOICE);
             return;
         }
-        int teamId = Integer.parseInt(callbackId.split("-")[1]);
+        long teamId = Long.parseLong(callbackId.split("-")[1]);
         user.setCurrentTeamChoice(teamId);
         userService.update(user);
         telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.SELECTED_TEAM);
@@ -48,15 +49,17 @@ public class ChoiceTeam extends AbstractTelegramBotPipeline {
     public void enterPipeline(User user) {
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                 "Выберите команду");
-        List<Team> allTeams = teamService.findAll();
+        List<Team> allTeams = findTeamService.findTeamByProjectId(user.getCurrentProjectChoice());
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         for(Team team : allTeams) {
-            buttonList.add(createButtonWithCallback(String.format(TEAM, team.getId()), team.getTitle()));
-            if(buttonList.size() == 3) {
-                rows.add(buttonList);
-                buttonList = new ArrayList<>();
+            if (team.isOpen()) {
+                buttonList.add(createButtonWithCallback(String.format(TEAM, team.getId()), team.getTitle()));
+                if (buttonList.size() == 3) {
+                    rows.add(buttonList);
+                    buttonList = new ArrayList<>();
+                }
             }
         }
         if (!buttonList.isEmpty()) {

@@ -48,7 +48,7 @@ public class SelectedTeam extends AbstractTelegramBotPipeline {
     public void enterPipeline(User user) {
         Team team = teamService.findById(Long.valueOf(user.getCurrentTeamChoice())).get();
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Описание команды\n" + team.toString());
+                "Описание команды\n" + team);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();

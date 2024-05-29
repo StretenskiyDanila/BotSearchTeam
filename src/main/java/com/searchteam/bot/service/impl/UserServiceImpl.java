@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByTelegramChatId(Long telegramChatId) {
-        return userRepository.findFirstByTelegramChatId(telegramChatId);
+        return userRepository.findByTelegramChatId(telegramChatId);
     }
 
     @Override
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
         user.setTelegramChatId(chatId);
         System.out.println("REGISTER USER");
         return userRepository.save(user);
-
     }
 
     @Override

@@ -8,4 +8,6 @@ public interface FindTeamService {
 
     List<Team> findTeamsFromUserQuestionnaireId(Long userQuestionnaireId, int page);
 
+    List<Team> findTeamByProjectId(Integer projectId);
+
 }

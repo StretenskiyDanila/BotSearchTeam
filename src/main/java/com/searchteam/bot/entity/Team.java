@@ -1,9 +1,7 @@
 package com.searchteam.bot.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,7 +9,6 @@ import java.util.List;
 @Table(name = "t_team")
 @Getter
 @Setter
-@ToString(exclude = {"requests", "users", "requests"})
 public class Team {
 
     @Id
@@ -20,9 +17,7 @@ public class Team {
 
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project;
+    private Integer projectId;
 
     @OneToOne
     @JoinColumn(name = "team_lead_id", referencedColumnName = "id")
@@ -32,11 +27,11 @@ public class Team {
 
     private boolean isOpen;
 
-    @OneToMany(mappedBy = "team")
-    List<User> users;
-
-    @OneToMany
-    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Request> requests;
 
+    @Override
+    public String toString() {
+        return title + "\n" + description;
+    }
 }

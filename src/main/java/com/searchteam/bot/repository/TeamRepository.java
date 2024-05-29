@@ -7,12 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
     Optional<Team> findTeamByTeamLead_Id(Long userId);
+    List<Team> findTeamByProjectId(Integer projectId);
+    boolean existsByTitle(String title);
 
 //    @Query(nativeQuery = true, value = "SELECT * FROM t_team" +
 //            " WHERE id NOT IN " +
@@ -20,7 +23,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 //    List<Team> findFreeTeamsForUserQuestionnaire(Long userQuestionnaireId);
 
     @Query(value =
-            "select t from Team t JOIN t.project p " +
+            "select t from Team t " +
             "WHERE " +
             "t.id not in " +
             "(select r.team.id FROM Request r WHERE r.userQuestionnaire.id=?1 GROUP BY r.team.id)")
