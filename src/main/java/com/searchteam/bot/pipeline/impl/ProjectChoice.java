@@ -35,7 +35,6 @@ public class ProjectChoice extends AbstractTelegramBotPipeline {
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
         if (callbackId.equals("back")) {
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.ACCOUNT);
-            return;
         }
     }
 

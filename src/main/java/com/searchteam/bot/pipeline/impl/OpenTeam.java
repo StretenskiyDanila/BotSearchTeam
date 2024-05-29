@@ -35,6 +35,7 @@ public class OpenTeam extends AbstractTelegramBotPipeline {
         Team team = teamService.findTeamByUser(user)
                 .orElseThrow(() -> new RuntimeException("Team not found"));
         team.setOpen(true);
+        teamService.update(team);
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                 "Ваша команда открыта для поиска");
         message = addBackButtons(message);

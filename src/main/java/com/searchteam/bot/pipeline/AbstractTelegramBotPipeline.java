@@ -42,7 +42,7 @@ public abstract class AbstractTelegramBotPipeline implements TelegramBotPipeline
     protected SendMessage addBackButtons(SendMessage message) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
-        buttonList.add(createButtonWithCallback("back", "Вернуться на главную!"));
+        buttonList.add(createButtonWithCallback("back", "Вернуться назад!"));
         inlineKeyboardMarkup.setKeyboard(List.of(buttonList));
         message.setReplyMarkup(inlineKeyboardMarkup);
         return message;
