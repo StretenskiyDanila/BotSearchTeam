@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: bot
+  docker:
+    compose:
+      skip:
+        in-tests: true
+      lifecycle-management: start_and_stop
+      enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5555/SearchTeam
+    username: postgres
+    password: YQgD1d
+  sql:
+    init:
+      mode: never
+bot:
+  token: 6912900868:AAGR5hplJXwgqnccNBzoi7-zNkyIoTPLVnM
+  name: SearchTeamPolytech
+event:
+  name: ОПД
+  count-people: 7
+  password: eventOPD
+  projects:
+    url: https://docs.google.com/spreadsheets/d/1TCBlKEKvi0HHkyBxbaLaPnytAp_hUX4X/edit#gid=508549580

@@ -1,0 +1,25 @@
+version: '3.8'
+
+name: bot_search_team
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: YQgD1d
+      POSTGRES_DB: SearchTeam
+  search_team_service:
+    image: bot-search-team:1.0
+    depends_on:
+      - db
+    entrypoint: ["java", "-Dspring.profiles.active=prod", "-cp", "./lib/*:./SearchTeamBot.jar", "com/searchteam/bot/BotApplication"]
+    environment:
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: YQgD1d
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db/SearchTeam
+      NAME_EVENT: ОПД
+      COUNT_PEOPLE: 7
+      EVENT_PASSWORD: "****"
+      PROJECTS_URL: https://docs.google.com/spreadsheets/d/1TCBlKEKvi0HHkyBxbaLaPnytAp_hUX4X

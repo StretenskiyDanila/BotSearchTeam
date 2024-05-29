@@ -1,0 +1,1 @@
+ALTER TABLE t_user ADD COLUMN current_request_choice bigint;
