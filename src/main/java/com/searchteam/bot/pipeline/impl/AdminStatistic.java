@@ -68,7 +68,7 @@ public class AdminStatistic extends AbstractTelegramBotPipeline {
                     .append(statistic.getTeamTitle())
                     .append(": ")
                     .append(statistic.getCountFoundUsers())
-                    .append(" участника нашли");
+                    .append(" участника(ов) нашли\n");
         }
         return stringBuilder.toString();
     }

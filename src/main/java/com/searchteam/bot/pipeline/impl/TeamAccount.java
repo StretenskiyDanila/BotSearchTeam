@@ -5,6 +5,7 @@ import com.searchteam.bot.entity.Team;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
 import com.searchteam.bot.pipeline.PipelineEnum;
+import com.searchteam.bot.service.RequestService;
 import com.searchteam.bot.service.TeamService;
 import com.searchteam.bot.service.TelegramService;
 import com.searchteam.bot.utils.TelegramChatUtils;
@@ -32,6 +33,7 @@ public class TeamAccount extends AbstractTelegramBotPipeline {
     private final TelegramBot telegramBot;
     private final TelegramService telegramService;
     private final TeamService teamService;
+    private final RequestService requestService;
 
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
@@ -52,7 +54,7 @@ public class TeamAccount extends AbstractTelegramBotPipeline {
             return;
         }
         if (DELETE_TEAM.equals(callbackId)) {
-            teamService.deleteTeam(user.getId());
+            teamService.deleteTeam(user.getCurrentTeamChoice());
             telegramService.setTelegramUserPipelineStatus(user, PipelineEnum.START);
         }
     }

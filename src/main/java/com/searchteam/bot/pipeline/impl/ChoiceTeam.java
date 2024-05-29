@@ -54,10 +54,12 @@ public class ChoiceTeam extends AbstractTelegramBotPipeline {
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         for(Team team : allTeams) {
-            buttonList.add(createButtonWithCallback(String.format(TEAM, team.getId()), team.getTitle()));
-            if(buttonList.size() == 3) {
-                rows.add(buttonList);
-                buttonList = new ArrayList<>();
+            if (team.isOpen()) {
+                buttonList.add(createButtonWithCallback(String.format(TEAM, team.getId()), team.getTitle()));
+                if (buttonList.size() == 3) {
+                    rows.add(buttonList);
+                    buttonList = new ArrayList<>();
+                }
             }
         }
         if (!buttonList.isEmpty()) {

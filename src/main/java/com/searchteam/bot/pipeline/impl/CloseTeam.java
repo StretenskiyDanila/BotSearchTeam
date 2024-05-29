@@ -35,6 +35,7 @@ public class CloseTeam extends AbstractTelegramBotPipeline {
         Team team = teamService.findTeamByUser(user)
                 .orElseThrow(() -> new RuntimeException("Team not found"));
         team.setOpen(false);
+        teamService.update(team);
         SendMessage message = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
                 "Ваша команда скрыта из поиска");
         message = addBackButtons(message);

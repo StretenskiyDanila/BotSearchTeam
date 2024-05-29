@@ -1,5 +1,6 @@
 package com.searchteam.bot.pipeline.impl;
 
+import com.searchteam.bot.configuration.ApplicationConfig;
 import com.searchteam.bot.controller.TelegramBot;
 import com.searchteam.bot.entity.User;
 import com.searchteam.bot.pipeline.AbstractTelegramBotPipeline;
@@ -28,9 +29,13 @@ public class BotStart extends AbstractTelegramBotPipeline {
     private static final String SEARCH_TEAM = "searchTeam";
     private static final String SEARCH_MEMBER = "searchMember";
     private static final String ADMIN_STATISTIC = "adminStatistic";
+    private static final String START_MESSAGE = "Добро пожаловать! Это бот для поиска команды/участника по %s. " +
+            "Максимальное количество человек в команде - %s.\n" +
+            "Вы хотите найти команду или ищете участника к себе в команду?";
 
     private final TelegramService telegramService;
     private final TelegramBot telegramBot;
+    private final ApplicationConfig applicationConfig;
 
     @Override
     protected void onCallBackReceived(String callbackId, CallbackQuery callbackQuery, User user) {
@@ -49,7 +54,7 @@ public class BotStart extends AbstractTelegramBotPipeline {
     @Override
     public void enterPipeline(User user) {
         SendMessage message1 = TelegramChatUtils.sendMessage(user.getTelegramChatId(),
-                "Добро пожаловать! Вы хотите найти команду или ищете участника к себе в команду?");
+                        String.format(START_MESSAGE, applicationConfig.getEventName(), applicationConfig.getCountPeople()));
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> buttonList = new ArrayList<>();
         buttonList.add(createButtonWithCallback(SEARCH_TEAM, "Хочу в команду!"));
